@@ -3,7 +3,7 @@ name: Hello World
 on:
   push:
     branches:
-      - main
+      - partie-2/chapitre-1-debut
 
 jobs:
   build:
