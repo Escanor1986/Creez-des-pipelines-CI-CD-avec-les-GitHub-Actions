@@ -25,7 +25,7 @@ jobs:
         run: npm run lint
 
       - name: Run typecheck
-        run: npm run tsc
+        run: npm run typecheck
 
   build-and-test:
     needs: lint-and-type
