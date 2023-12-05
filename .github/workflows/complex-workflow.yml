@@ -1,45 +1,47 @@
 name: A complex workflow
 
 on:
-    push:
-        branches: [partie-2/chapitre-2/section-4-fin]
+  push:
+    branches:
+      - partie-2/chapitre-2/section-4-fin
 
 jobs:
-    node-environnement:
-        runs-on: ubuntu-latest
+  lint-and-type:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            - name: Set Up Node
-              uses: actions/setup-node@v3
-              with:
-                node-version: 18
+      - name: Set Up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    lint-and-type:
-        needs: node-environnement
-        runs-on: ubuntu-latest
+      - name: Install dependencies
+        run: npm ci
 
-        steps:
-            - name: Install dependencies
-              run: npm ci
+      - name: Run linter
+        run: npm run lint
 
-            - name: Run linter
-              run: npm run lint
+      - name: Run typecheck
+        run: npm run tsc
 
-            - name: Run typecheck
-              run: npm run tsc
+  build-and-test:
+    needs: lint-and-type
+    runs-on: ubuntu-latest
 
-    build-and-test:
-        needs: lint-and-type
-        runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-        steps:
-            - name: Build the app
-              run: npm run build
-            
-            - name: Test the app
-              run: npm run test
-            
-            
+      - name: Set Up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Test the app
+        run: npm run test
