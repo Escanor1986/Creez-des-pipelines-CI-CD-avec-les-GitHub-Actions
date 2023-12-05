@@ -23,13 +23,13 @@ jobs:
 
         steps:
             - name: Install librairies
-              uses: npm install
+              run: npm install
 
             - name: Run linter
-              uses: npm run lint
+              run: npm run lint
 
             - name: Run typecheck
-              uses: npm run tsc
+              run: npm run tsc
 
     build-and-test:
         needs: lint-and-type
@@ -37,9 +37,9 @@ jobs:
 
         steps:
             - name: Build the app
-              uses: npm run build
+              run: npm run build
             
             - name: Test the app
-              uses: npm run test
+              run: npm run test
             
             
